@@ -1,0 +1,275 @@
+dnn.features.0.weight	conv1_1	lambda blobs: blobs[0]
+dnn.features.0.bias	conv1_1	lambda blobs: blobs[1]
+	
+dnn.features.2.weight	conv1_2	lambda blobs: blobs[0]
+dnn.features.2.bias	conv1_2	lambda blobs: blobs[1]
+	
+dnn.features.5.weight	conv2_1	lambda blobs: blobs[0]
+dnn.features.5.bias	conv2_1	lambda blobs: blobs[1]
+	
+dnn.features.7.weight	conv2_2	lambda blobs: blobs[0]
+dnn.features.7.bias	conv2_2	lambda blobs: blobs[1]
+	
+dnn.features.10.weight	conv3_1	lambda blobs: blobs[0]
+dnn.features.10.bias	conv3_1	lambda blobs: blobs[1]
+	
+dnn.features.12.weight	conv3_2	lambda blobs: blobs[0]
+dnn.features.12.bias	conv3_2	lambda blobs: blobs[1]
+	
+dnn.features.14.weight	conv3_3	lambda blobs: blobs[0]
+dnn.features.14.bias	conv3_3	lambda blobs: blobs[1]
+	
+dnn.features.16.weight	conv3_4	lambda blobs: blobs[0]
+dnn.features.16.bias	conv3_4	lambda blobs: blobs[1]
+	
+dnn.features.19.weight	conv4_1	lambda blobs: blobs[0]
+dnn.features.19.bias	conv4_1	lambda blobs: blobs[1]
+	
+dnn.features.21.weight	conv4_2	lambda blobs: blobs[0]
+dnn.features.21.bias	conv4_2	lambda blobs: blobs[1]
+	
+dnn.features.23.weight	conv4_3_CPM	lambda blobs: blobs[0]
+dnn.features.23.bias	conv4_3_CPM	lambda blobs: blobs[1]
+	
+dnn.features.25.weight	conv4_4_CPM	lambda blobs: blobs[0]
+dnn.features.25.bias	conv4_4_CPM	lambda blobs: blobs[1]
+	
+stages.0.limbs.0.conv.weight	conv5_1_CPM_L1	lambda blobs: blobs[0]
+stages.0.limbs.0.conv.bias	conv5_1_CPM_L1	lambda blobs: blobs[1]
+	
+stages.0.limbs.1.conv.weight	conv5_2_CPM_L1	lambda blobs: blobs[0]
+stages.0.limbs.1.conv.bias	conv5_2_CPM_L1	lambda blobs: blobs[1]
+	
+stages.0.limbs.2.conv.weight	conv5_3_CPM_L1	lambda blobs: blobs[0]
+stages.0.limbs.2.conv.bias	conv5_3_CPM_L1	lambda blobs: blobs[1]
+	
+stages.0.limbs.3.conv.weight	conv5_4_CPM_L1	lambda blobs: blobs[0]
+stages.0.limbs.3.conv.bias	conv5_4_CPM_L1	lambda blobs: blobs[1]
+	
+stages.0.limbs.4.conv.weight	conv5_5_CPM_L1	lambda blobs: blobs[0]
+stages.0.limbs.4.conv.bias	conv5_5_CPM_L1	lambda blobs: blobs[1]
+	
+stages.0.parts.0.conv.weight	conv5_1_CPM_L2	lambda blobs: blobs[0]
+stages.0.parts.0.conv.bias	conv5_1_CPM_L2	lambda blobs: blobs[1]
+	
+stages.0.parts.1.conv.weight	conv5_2_CPM_L2	lambda blobs: blobs[0]
+stages.0.parts.1.conv.bias	conv5_2_CPM_L2	lambda blobs: blobs[1]
+	
+stages.0.parts.2.conv.weight	conv5_3_CPM_L2	lambda blobs: blobs[0]
+stages.0.parts.2.conv.bias	conv5_3_CPM_L2	lambda blobs: blobs[1]
+	
+stages.0.parts.3.conv.weight	conv5_4_CPM_L2	lambda blobs: blobs[0]
+stages.0.parts.3.conv.bias	conv5_4_CPM_L2	lambda blobs: blobs[1]
+	
+stages.0.parts.4.conv.weight	conv5_5_CPM_L2	lambda blobs: blobs[0]
+stages.0.parts.4.conv.bias	conv5_5_CPM_L2	lambda blobs: blobs[1]
+	
+stages.1.limbs.0.conv.weight	Mconv1_stage2_L1	lambda blobs: blobs[0]
+stages.1.limbs.0.conv.bias	Mconv1_stage2_L1	lambda blobs: blobs[1]
+	
+stages.1.limbs.1.conv.weight	Mconv2_stage2_L1	lambda blobs: blobs[0]
+stages.1.limbs.1.conv.bias	Mconv2_stage2_L1	lambda blobs: blobs[1]
+	
+stages.1.limbs.2.conv.weight	Mconv3_stage2_L1	lambda blobs: blobs[0]
+stages.1.limbs.2.conv.bias	Mconv3_stage2_L1	lambda blobs: blobs[1]
+	
+stages.1.limbs.3.conv.weight	Mconv4_stage2_L1	lambda blobs: blobs[0]
+stages.1.limbs.3.conv.bias	Mconv4_stage2_L1	lambda blobs: blobs[1]
+	
+stages.1.limbs.4.conv.weight	Mconv5_stage2_L1	lambda blobs: blobs[0]
+stages.1.limbs.4.conv.bias	Mconv5_stage2_L1	lambda blobs: blobs[1]
+	
+stages.1.limbs.5.conv.weight	Mconv6_stage2_L1	lambda blobs: blobs[0]
+stages.1.limbs.5.conv.bias	Mconv6_stage2_L1	lambda blobs: blobs[1]
+	
+stages.1.limbs.6.conv.weight	Mconv7_stage2_L1	lambda blobs: blobs[0]
+stages.1.limbs.6.conv.bias	Mconv7_stage2_L1	lambda blobs: blobs[1]
+	
+stages.1.parts.0.conv.weight	Mconv1_stage2_L2	lambda blobs: blobs[0]
+stages.1.parts.0.conv.bias	Mconv1_stage2_L2	lambda blobs: blobs[1]
+	
+stages.1.parts.1.conv.weight	Mconv2_stage2_L2	lambda blobs: blobs[0]
+stages.1.parts.1.conv.bias	Mconv2_stage2_L2	lambda blobs: blobs[1]
+	
+stages.1.parts.2.conv.weight	Mconv3_stage2_L2	lambda blobs: blobs[0]
+stages.1.parts.2.conv.bias	Mconv3_stage2_L2	lambda blobs: blobs[1]
+	
+stages.1.parts.3.conv.weight	Mconv4_stage2_L2	lambda blobs: blobs[0]
+stages.1.parts.3.conv.bias	Mconv4_stage2_L2	lambda blobs: blobs[1]
+	
+stages.1.parts.4.conv.weight	Mconv5_stage2_L2	lambda blobs: blobs[0]
+stages.1.parts.4.conv.bias	Mconv5_stage2_L2	lambda blobs: blobs[1]
+	
+stages.1.parts.5.conv.weight	Mconv6_stage2_L2	lambda blobs: blobs[0]
+stages.1.parts.5.conv.bias	Mconv6_stage2_L2	lambda blobs: blobs[1]
+	
+stages.1.parts.6.conv.weight	Mconv7_stage2_L2	lambda blobs: blobs[0]
+stages.1.parts.6.conv.bias	Mconv7_stage2_L2	lambda blobs: blobs[1]
+	
+stages.2.limbs.0.conv.weight	Mconv1_stage3_L1	lambda blobs: blobs[0]
+stages.2.limbs.0.conv.bias	Mconv1_stage3_L1	lambda blobs: blobs[1]
+	
+stages.2.limbs.1.conv.weight	Mconv2_stage3_L1	lambda blobs: blobs[0]
+stages.2.limbs.1.conv.bias	Mconv2_stage3_L1	lambda blobs: blobs[1]
+	
+stages.2.limbs.2.conv.weight	Mconv3_stage3_L1	lambda blobs: blobs[0]
+stages.2.limbs.2.conv.bias	Mconv3_stage3_L1	lambda blobs: blobs[1]
+	
+stages.2.limbs.3.conv.weight	Mconv4_stage3_L1	lambda blobs: blobs[0]
+stages.2.limbs.3.conv.bias	Mconv4_stage3_L1	lambda blobs: blobs[1]
+	
+stages.2.limbs.4.conv.weight	Mconv5_stage3_L1	lambda blobs: blobs[0]
+stages.2.limbs.4.conv.bias	Mconv5_stage3_L1	lambda blobs: blobs[1]
+	
+stages.2.limbs.5.conv.weight	Mconv6_stage3_L1	lambda blobs: blobs[0]
+stages.2.limbs.5.conv.bias	Mconv6_stage3_L1	lambda blobs: blobs[1]
+	
+stages.2.limbs.6.conv.weight	Mconv7_stage3_L1	lambda blobs: blobs[0]
+stages.2.limbs.6.conv.bias	Mconv7_stage3_L1	lambda blobs: blobs[1]
+	
+stages.2.parts.0.conv.weight	Mconv1_stage3_L2	lambda blobs: blobs[0]
+stages.2.parts.0.conv.bias	Mconv1_stage3_L2	lambda blobs: blobs[1]
+	
+stages.2.parts.1.conv.weight	Mconv2_stage3_L2	lambda blobs: blobs[0]
+stages.2.parts.1.conv.bias	Mconv2_stage3_L2	lambda blobs: blobs[1]
+	
+stages.2.parts.2.conv.weight	Mconv3_stage3_L2	lambda blobs: blobs[0]
+stages.2.parts.2.conv.bias	Mconv3_stage3_L2	lambda blobs: blobs[1]
+	
+stages.2.parts.3.conv.weight	Mconv4_stage3_L2	lambda blobs: blobs[0]
+stages.2.parts.3.conv.bias	Mconv4_stage3_L2	lambda blobs: blobs[1]
+	
+stages.2.parts.4.conv.weight	Mconv5_stage3_L2	lambda blobs: blobs[0]
+stages.2.parts.4.conv.bias	Mconv5_stage3_L2	lambda blobs: blobs[1]
+	
+stages.2.parts.5.conv.weight	Mconv6_stage3_L2	lambda blobs: blobs[0]
+stages.2.parts.5.conv.bias	Mconv6_stage3_L2	lambda blobs: blobs[1]
+	
+stages.2.parts.6.conv.weight	Mconv7_stage3_L2	lambda blobs: blobs[0]
+stages.2.parts.6.conv.bias	Mconv7_stage3_L2	lambda blobs: blobs[1]
+	
+stages.3.limbs.0.conv.weight	Mconv1_stage4_L1	lambda blobs: blobs[0]
+stages.3.limbs.0.conv.bias	Mconv1_stage4_L1	lambda blobs: blobs[1]
+	
+stages.3.limbs.1.conv.weight	Mconv2_stage4_L1	lambda blobs: blobs[0]
+stages.3.limbs.1.conv.bias	Mconv2_stage4_L1	lambda blobs: blobs[1]
+	
+stages.3.limbs.2.conv.weight	Mconv3_stage4_L1	lambda blobs: blobs[0]
+stages.3.limbs.2.conv.bias	Mconv3_stage4_L1	lambda blobs: blobs[1]
+	
+stages.3.limbs.3.conv.weight	Mconv4_stage4_L1	lambda blobs: blobs[0]
+stages.3.limbs.3.conv.bias	Mconv4_stage4_L1	lambda blobs: blobs[1]
+	
+stages.3.limbs.4.conv.weight	Mconv5_stage4_L1	lambda blobs: blobs[0]
+stages.3.limbs.4.conv.bias	Mconv5_stage4_L1	lambda blobs: blobs[1]
+	
+stages.3.limbs.5.conv.weight	Mconv6_stage4_L1	lambda blobs: blobs[0]
+stages.3.limbs.5.conv.bias	Mconv6_stage4_L1	lambda blobs: blobs[1]
+	
+stages.3.limbs.6.conv.weight	Mconv7_stage4_L1	lambda blobs: blobs[0]
+stages.3.limbs.6.conv.bias	Mconv7_stage4_L1	lambda blobs: blobs[1]
+	
+stages.3.parts.0.conv.weight	Mconv1_stage4_L2	lambda blobs: blobs[0]
+stages.3.parts.0.conv.bias	Mconv1_stage4_L2	lambda blobs: blobs[1]
+	
+stages.3.parts.1.conv.weight	Mconv2_stage4_L2	lambda blobs: blobs[0]
+stages.3.parts.1.conv.bias	Mconv2_stage4_L2	lambda blobs: blobs[1]
+	
+stages.3.parts.2.conv.weight	Mconv3_stage4_L2	lambda blobs: blobs[0]
+stages.3.parts.2.conv.bias	Mconv3_stage4_L2	lambda blobs: blobs[1]
+	
+stages.3.parts.3.conv.weight	Mconv4_stage4_L2	lambda blobs: blobs[0]
+stages.3.parts.3.conv.bias	Mconv4_stage4_L2	lambda blobs: blobs[1]
+	
+stages.3.parts.4.conv.weight	Mconv5_stage4_L2	lambda blobs: blobs[0]
+stages.3.parts.4.conv.bias	Mconv5_stage4_L2	lambda blobs: blobs[1]
+	
+stages.3.parts.5.conv.weight	Mconv6_stage4_L2	lambda blobs: blobs[0]
+stages.3.parts.5.conv.bias	Mconv6_stage4_L2	lambda blobs: blobs[1]
+	
+stages.3.parts.6.conv.weight	Mconv7_stage4_L2	lambda blobs: blobs[0]
+stages.3.parts.6.conv.bias	Mconv7_stage4_L2	lambda blobs: blobs[1]
+	
+stages.4.limbs.0.conv.weight	Mconv1_stage5_L1	lambda blobs: blobs[0]
+stages.4.limbs.0.conv.bias	Mconv1_stage5_L1	lambda blobs: blobs[1]
+	
+stages.4.limbs.1.conv.weight	Mconv2_stage5_L1	lambda blobs: blobs[0]
+stages.4.limbs.1.conv.bias	Mconv2_stage5_L1	lambda blobs: blobs[1]
+	
+stages.4.limbs.2.conv.weight	Mconv3_stage5_L1	lambda blobs: blobs[0]
+stages.4.limbs.2.conv.bias	Mconv3_stage5_L1	lambda blobs: blobs[1]
+	
+stages.4.limbs.3.conv.weight	Mconv4_stage5_L1	lambda blobs: blobs[0]
+stages.4.limbs.3.conv.bias	Mconv4_stage5_L1	lambda blobs: blobs[1]
+	
+stages.4.limbs.4.conv.weight	Mconv5_stage5_L1	lambda blobs: blobs[0]
+stages.4.limbs.4.conv.bias	Mconv5_stage5_L1	lambda blobs: blobs[1]
+	
+stages.4.limbs.5.conv.weight	Mconv6_stage5_L1	lambda blobs: blobs[0]
+stages.4.limbs.5.conv.bias	Mconv6_stage5_L1	lambda blobs: blobs[1]
+	
+stages.4.limbs.6.conv.weight	Mconv7_stage5_L1	lambda blobs: blobs[0]
+stages.4.limbs.6.conv.bias	Mconv7_stage5_L1	lambda blobs: blobs[1]
+	
+stages.4.parts.0.conv.weight	Mconv1_stage5_L2	lambda blobs: blobs[0]
+stages.4.parts.0.conv.bias	Mconv1_stage5_L2	lambda blobs: blobs[1]
+	
+stages.4.parts.1.conv.weight	Mconv2_stage5_L2	lambda blobs: blobs[0]
+stages.4.parts.1.conv.bias	Mconv2_stage5_L2	lambda blobs: blobs[1]
+	
+stages.4.parts.2.conv.weight	Mconv3_stage5_L2	lambda blobs: blobs[0]
+stages.4.parts.2.conv.bias	Mconv3_stage5_L2	lambda blobs: blobs[1]
+	
+stages.4.parts.3.conv.weight	Mconv4_stage5_L2	lambda blobs: blobs[0]
+stages.4.parts.3.conv.bias	Mconv4_stage5_L2	lambda blobs: blobs[1]
+	
+stages.4.parts.4.conv.weight	Mconv5_stage5_L2	lambda blobs: blobs[0]
+stages.4.parts.4.conv.bias	Mconv5_stage5_L2	lambda blobs: blobs[1]
+	
+stages.4.parts.5.conv.weight	Mconv6_stage5_L2	lambda blobs: blobs[0]
+stages.4.parts.5.conv.bias	Mconv6_stage5_L2	lambda blobs: blobs[1]
+	
+stages.4.parts.6.conv.weight	Mconv7_stage5_L2	lambda blobs: blobs[0]
+stages.4.parts.6.conv.bias	Mconv7_stage5_L2	lambda blobs: blobs[1]
+	
+stages.5.limbs.0.conv.weight	Mconv1_stage6_L1	lambda blobs: blobs[0]
+stages.5.limbs.0.conv.bias	Mconv1_stage6_L1	lambda blobs: blobs[1]
+	
+stages.5.limbs.1.conv.weight	Mconv2_stage6_L1	lambda blobs: blobs[0]
+stages.5.limbs.1.conv.bias	Mconv2_stage6_L1	lambda blobs: blobs[1]
+	
+stages.5.limbs.2.conv.weight	Mconv3_stage6_L1	lambda blobs: blobs[0]
+stages.5.limbs.2.conv.bias	Mconv3_stage6_L1	lambda blobs: blobs[1]
+	
+stages.5.limbs.3.conv.weight	Mconv4_stage6_L1	lambda blobs: blobs[0]
+stages.5.limbs.3.conv.bias	Mconv4_stage6_L1	lambda blobs: blobs[1]
+	
+stages.5.limbs.4.conv.weight	Mconv5_stage6_L1	lambda blobs: blobs[0]
+stages.5.limbs.4.conv.bias	Mconv5_stage6_L1	lambda blobs: blobs[1]
+	
+stages.5.limbs.5.conv.weight	Mconv6_stage6_L1	lambda blobs: blobs[0]
+stages.5.limbs.5.conv.bias	Mconv6_stage6_L1	lambda blobs: blobs[1]
+	
+stages.5.limbs.6.conv.weight	Mconv7_stage6_L1	lambda blobs: blobs[0]
+stages.5.limbs.6.conv.bias	Mconv7_stage6_L1	lambda blobs: blobs[1]
+	
+stages.5.parts.0.conv.weight	Mconv1_stage6_L2	lambda blobs: blobs[0]
+stages.5.parts.0.conv.bias	Mconv1_stage6_L2	lambda blobs: blobs[1]
+	
+stages.5.parts.1.conv.weight	Mconv2_stage6_L2	lambda blobs: blobs[0]
+stages.5.parts.1.conv.bias	Mconv2_stage6_L2	lambda blobs: blobs[1]
+	
+stages.5.parts.2.conv.weight	Mconv3_stage6_L2	lambda blobs: blobs[0]
+stages.5.parts.2.conv.bias	Mconv3_stage6_L2	lambda blobs: blobs[1]
+	
+stages.5.parts.3.conv.weight	Mconv4_stage6_L2	lambda blobs: blobs[0]
+stages.5.parts.3.conv.bias	Mconv4_stage6_L2	lambda blobs: blobs[1]
+	
+stages.5.parts.4.conv.weight	Mconv5_stage6_L2	lambda blobs: blobs[0]
+stages.5.parts.4.conv.bias	Mconv5_stage6_L2	lambda blobs: blobs[1]
+	
+stages.5.parts.5.conv.weight	Mconv6_stage6_L2	lambda blobs: blobs[0]
+stages.5.parts.5.conv.bias	Mconv6_stage6_L2	lambda blobs: blobs[1]
+	
+stages.5.parts.6.conv.weight	Mconv7_stage6_L2	lambda blobs: blobs[0]
+stages.5.parts.6.conv.bias	Mconv7_stage6_L2	lambda blobs: blobs[1]
