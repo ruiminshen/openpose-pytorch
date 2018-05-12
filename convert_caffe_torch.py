@@ -78,7 +78,7 @@ def main():
     inference.eval()
     state_dict = inference.state_dict()
     # Caffe
-    net = caffe.Net(model_dir + '.prototxt', model_dir + '.caffemodel', caffe.TEST)
+    net = caffe.Net(os.path.expanduser(os.path.expandvars(args.prototxt)), os.path.expanduser(os.path.expandvars(args.caffemodel)), caffe.TEST)
     if args.debug:
         logging.info('Caffe variables')
         for name, blobs in net.params.items():
@@ -136,6 +136,8 @@ def main():
 def make_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('mapper')
+    parser.add_argument('prototxt')
+    parser.add_argument('caffemodel')
     parser.add_argument('-c', '--config', nargs='+', default=['config.ini'], help='config file')
     parser.add_argument('-m', '--modify', nargs='+', default=[], help='modify config')
     parser.add_argument('--logging', default='logging.yml', help='logging config')
