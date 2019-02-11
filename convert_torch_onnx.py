@@ -58,7 +58,7 @@ def main():
     inference = model.Inference(config, dnn, stages)
     inference.eval()
     logging.info(humanize.naturalsize(sum(var.cpu().numpy().nbytes for var in inference.state_dict().values())))
-    image = torch.autograd.Variable(torch.randn(args.batch_size, 3, height, width), volatile=True)
+    image = torch.randn(args.batch_size, 3, height, width)
     path = model_dir + '.onnx'
     logging.info('save ' + path)
     forward = inference.forward

@@ -117,12 +117,11 @@ class MobileNet2(nn.Module):
                 if m.bias is not None:
                     m.bias.data.zero_()
             elif isinstance(m, nn.BatchNorm2d):
-                m.weight.data.fill_(1)
-                m.bias.data.zero_()
+                m.weight.data.fill_(1) # PyTorch's bug
+                m.bias.data.zero_() # PyTorch's bug
             elif isinstance(m, nn.Linear):
-                n = m.weight.size(1)
-                m.weight.data.normal_(0, 0.01)
-                m.bias.data.zero_()
+                m.weight.normal_(0, 0.01)
+                m.bias.zero_()
 
 
 class MobileNet2Dilate2(MobileNet2):

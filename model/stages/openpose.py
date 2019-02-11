@@ -58,10 +58,10 @@ class Stage0(nn.Module):
     def init(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                m.weight = nn.init.xavier_normal(m.weight)
+                m.weight = nn.init.xavier_normal_(m.weight)
             elif isinstance(m, nn.BatchNorm2d):
-                m.weight.data.fill_(1)
-                m.bias.data.zero_()
+                m.weight.fill_(1)
+                m.bias.zero_()
 
     def forward(self, x, **kwargs):
         return {name: var(x) for name, var in self._modules.items()}
@@ -85,10 +85,10 @@ class Stage(nn.Module):
     def init(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                m.weight = nn.init.xavier_normal(m.weight)
+                m.weight = nn.init.xavier_normal_(m.weight)
             elif isinstance(m, nn.BatchNorm2d):
-                m.weight.data.fill_(1)
-                m.bias.data.zero_()
+                m.weight.fill_(1)
+                m.bias.zero_()
 
     def forward(self, x, **kwargs):
         x = torch.cat([kwargs[name] for name in ('limbs', 'parts')] + [x], 1)

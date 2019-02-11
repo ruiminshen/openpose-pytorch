@@ -86,10 +86,11 @@ def main():
         utils.modify_config(config, cmd)
     with open(os.path.expanduser(os.path.expandvars(args.logging)), 'r') as f:
         logging.config.dictConfig(yaml.load(f))
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     cache_dir = utils.get_cache_dir(config)
     _, num_parts = utils.get_dataset_mappers(config)
     limbs_index = utils.get_limbs_index(config)
-    dnn = utils.parse_attr(config.get('model', 'dnn'))(model.ConfigChannels(config))
+    dnn = utils.parse_attr(config.get('model', 'dnn'))(model.ConfigChannels(config)).to(device)
     logging.info(humanize.naturalsize(sum(var.cpu().numpy().nbytes for var in dnn.state_dict().values())))
     size = tuple(map(int, config.get('image', 'size').split()))
     draw_points = utils.visualize.DrawPoints(limbs_index, colors=config.get('draw_points', 'colors').split())
@@ -110,7 +111,7 @@ def main():
     collate_fn = utils.data.Collate(
         config,
         transform.parse_transform(config, config.get('transform', 'resize_train')),
-        [size], [model.feature_size(dnn, *size)],
+        [size], [dnn(torch.randn(1, 3, *size).to(device)).size()[-2:]],
         maintain=config.getint('data', 'maintain'),
         transform_image=transform.get_transform(config, config.get('transform', 'image_train').split()),
     )

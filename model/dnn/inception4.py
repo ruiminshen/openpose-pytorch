@@ -319,10 +319,10 @@ class Inception4(nn.Module):
             beta = True
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                m.weight = nn.init.kaiming_normal(m.weight)
+                m.weight = nn.init.kaiming_normal_(m.weight)
             elif isinstance(m, nn.BatchNorm2d):
-                m.weight.data.fill_(1)
-                m.bias.data.zero_()
+                m.weight.fill_(1)
+                m.bias.zero_()
                 m.weight.requires_grad = gamma
                 m.bias.requires_grad = beta
         try:

@@ -55,15 +55,6 @@ import utils.visualize
 #import eval as _eval
 
 
-def ensure_model(model):
-    if torch.cuda.is_available():
-        model.cuda()
-        if torch.cuda.device_count() > 1:
-            logging.info('%d GPUs are used' % torch.cuda.device_count())
-            model = nn.DataParallel(model).cuda()
-    return model
-
-
 class SummaryWorker(multiprocessing.Process):
     def __init__(self, env):
         super(SummaryWorker, self).__init__()
@@ -107,7 +98,7 @@ class SummaryWorker(multiprocessing.Process):
             inference = model.Inference(self.config, dnn, stages)
             forward = inference.forward
             inference.forward = lambda self, *x: list(forward(self, *x)[-1].values())
-            self.writer.add_graph(inference, (torch.autograd.Variable(tensor),))
+            self.writer.add_graph(inference, (tensor,))
         except:
             traceback.print_exc()
         while True:
@@ -122,9 +113,9 @@ class SummaryWorker(multiprocessing.Process):
 
     def copy_scalar(self, **kwargs):
         step, loss_total, losses, losses_hparam = (kwargs[key] for key in 'step, loss_total, losses, losses_hparam'.split(', '))
-        loss_total = loss_total.data.clone().cpu().numpy()
-        losses = [{name: l.data.clone().cpu().numpy() for name, l in loss.items()} for loss in losses]
-        losses_hparam = [{name: l.data.clone().cpu().numpy() for name, l in loss.items()} for loss in losses_hparam]
+        loss_total = loss_total.detach().cpu().numpy()
+        losses = [{name: l.detach().cpu().numpy() for name, l in loss.items()} for loss in losses]
+        losses_hparam = [{name: l.detach().cpu().numpy() for name, l in loss.items()} for loss in losses_hparam]
         return dict(
             step=step,
             loss_total=loss_total,
@@ -144,7 +135,7 @@ class SummaryWorker(multiprocessing.Process):
         step, height, width, data, outputs = (kwargs[key] for key in 'step, height, width, data, outputs'.split(', '))
         image, mask, keypoints, yx_min, yx_max, parts, limbs, index = (data[key].clone().cpu().numpy() for key in 'image, mask, keypoints, yx_min, yx_max, parts, limbs, index'.split(', '))
         output = outputs[self.config.getint('summary_image', 'stage')]
-        output = {name: output[name].data.clone().cpu().numpy() for name in self.config.get('summary_image', 'output').split()}
+        output = {name: output[name].detach().cpu().numpy() for name in self.config.get('summary_image', 'output').split()}
         return dict(
             step=step, height=height, width=width,
             image=image, mask=mask, keypoints=keypoints, yx_min=yx_min, yx_max=yx_max, parts=parts, limbs=limbs, index=index,
@@ -233,6 +224,7 @@ class Train(object):
     def __init__(self, args, config):
         self.args = args
         self.config = config
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model_dir = utils.get_model_dir(config)
         self.cache_dir = utils.get_cache_dir(config)
         _, self.num_parts = utils.get_dataset_mappers(config)
@@ -253,7 +245,7 @@ class Train(object):
             path = os.path.expanduser(os.path.expandvars(self.args.finetune))
             logging.info('finetune from ' + path)
             self.finetune(self.dnn, path)
-        self.inference = ensure_model(self.inference)
+        self.inference = self.inference.to(self.device)
         self.inference.train()
         self.optimizer = eval(self.config.get('train', 'optimizer'))(filter(lambda p: p.requires_grad, self.inference.parameters()), self.args.learning_rate)
 
@@ -282,12 +274,10 @@ class Train(object):
         logging.info('num_examples=%d' % len(dataset))
         try:
             workers = self.config.getint('data', 'workers')
-            if torch.cuda.is_available():
-                workers = workers * torch.cuda.device_count()
         except configparser.NoOptionError:
             workers = multiprocessing.cpu_count()
         sizes = utils.train.load_sizes(self.config)
-        feature_sizes = [model.feature_size(dnn, *size) for size in sizes]
+        feature_sizes = [dnn(torch.randn(1, 3, *size).to(self.device)).size()[-2:] for size in sizes]
         collate_fn = utils.data.Collate(
             self.config,
             transform.parse_transform(self.config, self.config.get('transform', 'resize_train')),
@@ -297,7 +287,7 @@ class Train(object):
             transform_tensor=transform.get_transform(self.config, self.config.get('transform', 'tensor').split()),
             dir=os.path.join(self.model_dir, 'exception'),
         )
-        return torch.utils.data.DataLoader(dataset, batch_size=self.args.batch_size * torch.cuda.device_count() if torch.cuda.is_available() else self.args.batch_size, shuffle=True, num_workers=workers, collate_fn=collate_fn, pin_memory=torch.cuda.is_available())
+        return torch.utils.data.DataLoader(dataset, batch_size=self.args.batch_size, shuffle=True, num_workers=workers, collate_fn=collate_fn, pin_memory=torch.cuda.is_available())
 
     def load(self):
         try:
@@ -341,8 +331,8 @@ class Train(object):
         for key in data:
             t = data[key]
             if torch.is_tensor(t):
-                data[key] = utils.ensure_device(t)
-        tensor = torch.autograd.Variable(data['tensor'])
+                data[key] = t.to(self.device)
+        tensor = data['tensor']
         outputs = pybenchmark.profile('inference')(self.inference)(tensor)
         height, width = data['image'].size()[1:3]
         loss = pybenchmark.profile('loss')(model.Loss(self.config, data, self.limbs_index, height, width))
@@ -406,14 +396,14 @@ class Train(object):
 
     def check_nan(self, **kwargs):
         step, loss_total, losses, data = (kwargs[key] for key in 'step, loss_total, losses, data'.split(', '))
-        if np.isnan(loss_total.data.cpu()[0]):
+        if np.isnan(loss_total.item()):
             dump_dir = os.path.join(self.model_dir, str(step))
             os.makedirs(dump_dir, exist_ok=True)
             torch.save({name: collections.OrderedDict([(key, var.cpu()) for key, var in getattr(self, name).state_dict().items()]) for name in 'dnn, stages'.split(', ')}, os.path.join(dump_dir, 'model.pth'))
             torch.save(data, os.path.join(dump_dir, 'data.pth'))
             for i, loss in enumerate(losses):
                 for name, l in loss.items():
-                    logging.warning('%s%d=%f' % (name, i, l.data.cpu()[0]))
+                    logging.warning('%s%d=%f' % (name, i, l.item()))
             raise OverflowError('NaN loss detected, dump runtime information into ' + dump_dir)
 
     def save(self, **kwargs):
@@ -431,8 +421,7 @@ class Train(object):
             self.backup_best(cls_ap, e.path)
         except:
             traceback.print_exc()
-        if torch.cuda.is_available():
-            self.inference.cuda()
+        self.inference = self.inference.to(self.device)
 
     def backup_best(self, cls_ap, path):
         try:

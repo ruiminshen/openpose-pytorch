@@ -149,12 +149,6 @@ def modify_config(config, cmd):
             pass
 
 
-def ensure_device(t, device_id=None, async=False):
-    if torch.cuda.is_available():
-        t = t.cuda(device_id, async)
-    return t
-
-
 def dense(var):
     return [torch.mean(torch.abs(x)) if torch.is_tensor(x) else np.abs(x) for x in var]
 

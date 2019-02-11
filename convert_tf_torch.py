@@ -127,15 +127,14 @@ def main():
                         'x'.join(map(str, val.shape)),
                         utils.abs_mean(val), hashlib.md5(val.tostring()).hexdigest(),
                     ])))
-            _tensor = torch.autograd.Variable(tensor, volatile=True)
-            val = dnn(_tensor).data.numpy()
+            val = dnn(tensor).detach().numpy()
             print('\t'.join(map(str, [
                 'x'.join(map(str, val.shape)),
                 utils.abs_mean(val), hashlib.md5(val.tostring()).hexdigest(),
             ])))
-            for stage, output in enumerate(inference(_tensor)):
+            for stage, output in enumerate(inference(tensor)):
                 for name, feature in output.items():
-                    val = feature.data.numpy()
+                    val = feature.detach().numpy()
                     print('\t'.join(map(str, [
                         'stage%d/%s' % (stage, name),
                         'x'.join(map(str, val.shape)),
@@ -144,7 +143,7 @@ def main():
             forward = inference.forward
             inference.forward = lambda self, *x: list(forward(self, *x)[-1].values())
             with SummaryWriter(model_dir) as writer:
-                writer.add_graph(inference, (_tensor,))
+                writer.add_graph(inference, (tensor,))
 
 
 def make_args():

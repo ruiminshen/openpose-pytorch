@@ -30,8 +30,11 @@ import torch.cuda
 import torch.optim
 import torch.utils.data
 import torch.nn as nn
-from caffe2.proto import caffe2_pb2
-from caffe2.python import workspace
+try:
+    from caffe2.proto import caffe2_pb2
+    from caffe2.python import workspace
+except ImportError:
+    pass
 import humanize
 import pybenchmark
 import cv2
@@ -47,6 +50,7 @@ class Estimate(object):
     def __init__(self, args, config):
         self.args = args
         self.config = config
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.cache_dir = utils.get_cache_dir(config)
         self.model_dir = utils.get_model_dir(config)
         _, self.num_parts = utils.get_dataset_mappers(config)
@@ -69,7 +73,7 @@ class Estimate(object):
             with open(os.path.join(self.model_dir, 'predict_net.pb'), 'rb') as f:
                 predict_net.ParseFromString(f.read())
             p = workspace.Predictor(init_net, predict_net)
-            self.inference = lambda tensor: [{'parts': torch.autograd.Variable(torch.from_numpy(parts)), 'limbs': torch.autograd.Variable(torch.from_numpy(limbs))} for parts, limbs in zip(*[iter(p.run([tensor.data.cpu().numpy()]))] * 2)]
+            self.inference = lambda tensor: [{'parts': torch.from_numpy(parts), 'limbs': torch.from_numpy(limbs)} for parts, limbs in zip(*[iter(p.run([tensor.detach().cpu().numpy()]))] * 2)]
         else:
             self.step, self.epoch, self.dnn, self.stages = self.load()
             self.inference = model.Inference(config, self.dnn, self.stages)
@@ -133,13 +137,13 @@ class Estimate(object):
         image_resized = self.resize(image_bgr, self.height, self.width)
         image = self.transform_image(image_resized)
         tensor = self.transform_tensor(image)
-        tensor = utils.ensure_device(tensor.unsqueeze(0))
-        outputs = pybenchmark.profile('inference')(self.inference)(torch.autograd.Variable(tensor, volatile=True))
+        tensor = tensor.unsqueeze(0).to(self.device)
+        outputs = pybenchmark.profile('inference')(self.inference)(tensor)
         if hasattr(self, 'draw_cluster'):
             output = outputs[-1]
-            parts, limbs = (output[name][0].data for name in 'parts, limbs'.split(', '))
+            parts, limbs = (output[name][0] for name in 'parts, limbs'.split(', '))
             parts = parts[:-1]
-            parts, limbs = (t.cpu().numpy() for t in (parts, limbs))
+            parts, limbs = (t.detach().cpu().numpy() for t in (parts, limbs))
             try:
                 interpolation = getattr(cv2, 'INTER_' + self.config.get('estimate', 'interpolation').upper())
                 parts, limbs = (np.stack([cv2.resize(feature, (self.width, self.height), interpolation=interpolation) for feature in a]) for a in (parts, limbs))
@@ -159,7 +163,7 @@ class Estimate(object):
                 image_result = self.draw_cluster(image_result, cluster)
         else:
             image_result = image_resized.copy()
-            feature = self.get_feature(outputs).data.cpu().numpy()
+            feature = self.get_feature(outputs).detach().cpu().numpy()
             image_result = self.draw_feature(image_result, feature)
         if self.args.output:
             if not hasattr(self, 'writer'):
@@ -183,10 +187,11 @@ def main():
         utils.modify_config(config, cmd)
     with open(os.path.expanduser(os.path.expandvars(args.logging)), 'r') as f:
         logging.config.dictConfig(yaml.load(f))
-    detect = Estimate(args, config)
+    estimate = Estimate(args, config)
     try:
-        while detect.cap.isOpened():
-            detect()
+        with torch.no_grad():
+            while estimate.cap.isOpened():
+                estimate()
     except KeyboardInterrupt:
         logging.warning('interrupted')
     finally:

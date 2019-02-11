@@ -123,9 +123,9 @@ def main():
             stages=inference.stages.state_dict(),
         ), 0)
     finally:
-        for stage, output in enumerate(inference(torch.autograd.Variable(tensor, volatile=True))):
+        for stage, output in enumerate(inference(tensor)):
             for name, feature in output.items():
-                val = feature.data.numpy()
+                val = feature.detach().numpy()
                 print('\t'.join(map(str, [
                     'stage%d/%s' % (stage, name),
                     'x'.join(map(str, val.shape)),

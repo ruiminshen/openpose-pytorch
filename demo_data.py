@@ -42,10 +42,11 @@ def main():
         utils.modify_config(config, cmd)
     with open(os.path.expanduser(os.path.expandvars(args.logging)), 'r') as f:
         logging.config.dictConfig(yaml.load(f))
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     cache_dir = utils.get_cache_dir(config)
     _, num_parts = utils.get_dataset_mappers(config)
     limbs_index = utils.get_limbs_index(config)
-    dnn = utils.parse_attr(config.get('model', 'dnn'))(model.ConfigChannels(config))
+    dnn = utils.parse_attr(config.get('model', 'dnn'))(model.ConfigChannels(config)).to(device)
     draw_points = utils.visualize.DrawPoints(limbs_index, colors=config.get('draw_points', 'colors').split())
     _draw_points = utils.visualize.DrawPoints(limbs_index, thickness=1)
     draw_bbox = utils.visualize.DrawBBox()
@@ -63,7 +64,7 @@ def main():
     except configparser.NoOptionError:
         workers = multiprocessing.cpu_count()
     sizes = utils.train.load_sizes(config)
-    feature_sizes = [model.feature_size(dnn, *size) for size in sizes]
+    feature_sizes = [dnn(torch.randn(1, 3, *size).to(device)).size()[-2:] for size in sizes]
     collate_fn = utils.data.Collate(
         config,
         transform.parse_transform(config, config.get('transform', 'resize_train')),

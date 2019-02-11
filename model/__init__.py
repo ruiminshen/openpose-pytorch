@@ -47,14 +47,6 @@ def channel_dict(num_parts, num_limbs):
     ])
 
 
-def feature_size(dnn, height, width):
-    image = torch.autograd.Variable(torch.randn(1, 3, height, width), volatile=True)
-    if next(dnn.parameters()).is_cuda:
-        image = image.cuda()
-    feature = dnn(image)
-    return feature.size()[-2:]
-
-
 class Inference(nn.Module):
     def __init__(self, config, dnn, stages):
         nn.Module.__init__(self)
@@ -81,10 +73,10 @@ class Loss(object):
         self.width = width
 
     def __call__(self, **kwargs):
-        mask = torch.autograd.Variable(self.data['mask'].float())
+        mask = self.data['mask'].float()
         batch_size, rows, cols = mask.size()
         mask = mask.view(batch_size, 1, rows, cols)
-        data = {name: torch.autograd.Variable(self.data[name]) for name in kwargs}
+        data = {name: self.data[name] for name in kwargs}
         return {name: self.loss(mask, data[name], feature) for name, feature in kwargs.items()}
 
     def loss(self, mask, label, feature):
